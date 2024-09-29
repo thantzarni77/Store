@@ -22,8 +22,8 @@ const CustomerDetail = () => {
     setTotal(Alltotal); // Log the calculated total
   };
 
-  const updateStock = async (itemID, cStock) => {
-    const newStock = Number(cStock) - 1; // Calculate new stock
+  const updateStock = async (itemID, cStock, cQ) => {
+    const newStock = Number(cStock) - Number(cQ); // Calculate new stock
     if (newStock < 0) {
       console.error("Stock cannot be negative for item ID:", itemID);
       return;
@@ -66,7 +66,7 @@ const CustomerDetail = () => {
       // Update stock for all items
       await Promise.all(
         customerData[0]?.items?.map(async (data) => {
-          await updateStock(data.id, data.stock);
+          await updateStock(data.id, data.stock, data.quantity);
         })
       );
 
