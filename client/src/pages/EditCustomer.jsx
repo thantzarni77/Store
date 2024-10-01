@@ -53,11 +53,11 @@ const EditCustomer = () => {
         setCheckedItems((prev) => [
           ...prev,
           {
-            id: selectedItem.id,
+            id: selectedItem._id,
             name: selectedItem.name,
             price: selectedItem.price,
             stock: selectedItem.stock,
-            quantity: 1,
+            quantity: selectedItem.quantity ? selectedItem.quantity : 1,
           },
         ]);
       }
@@ -97,8 +97,6 @@ const EditCustomer = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const itemData = { id, user, note, checkedItems };
-
-    console.log(itemData);
 
     const response = await fetch(
       `${import.meta.env.VITE_SERVER}/edit/customer/${id}`,

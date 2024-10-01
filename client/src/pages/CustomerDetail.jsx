@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { ItemContext } from "../context/ItemContext";
 
 const CustomerDetail = () => {
@@ -7,8 +7,6 @@ const CustomerDetail = () => {
   const { getItems, customerData, getCustomerData } = useContext(ItemContext);
   const [total, setTotal] = useState();
   const { id } = useParams();
-
-  console.log(customerData);
 
   useEffect(() => {
     getCustomerData(id);
@@ -117,11 +115,20 @@ const CustomerDetail = () => {
           <div>{customerData[0]?.note}</div>
         </div>
       )}
-      <div
-        className="p-2 rounded-lg bg-red-100 mt-5"
-        onClick={orderFinishHandle}
-      >
-        Order Finished
+      <div className="flex gap-5">
+        <Link
+          className="p-2 rounded-lg bg-blue-100 mt-5"
+          to={`/edit/customer/${id}`}
+        >
+          Edit Orders
+        </Link>
+
+        <div
+          className="p-2 rounded-lg bg-red-100 mt-5"
+          onClick={orderFinishHandle}
+        >
+          Order Finished
+        </div>
       </div>
     </div>
   );

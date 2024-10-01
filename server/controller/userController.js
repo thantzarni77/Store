@@ -62,14 +62,19 @@ exports.getSingleCustomer = async (req, res) => {
       name: 1,
     });
 
-    const itemDetails = items.map((item, index) => ({
-      id: item._id, // Add the item's ID
-      name: item.name,
-      price: item.price,
-      stock: item.stock, // Add the item's stock
-      quantity: customer.items[index].quantity,
-    }));
-
+    const itemDetails = items.map((item) => {
+      // Find the corresponding customer item based on the item name
+      const customerItem = customer.items.find(
+        (ci) => ci.name.trim() === item.name.trim()
+      );
+      return {
+        id: item._id, // Add the item's ID
+        name: item.name,
+        price: item.price,
+        stock: item.stock, // Add the item's stock
+        quantity: customerItem ? customerItem.quantity : 0, // Get the quantity from customer.items
+      };
+    });
     customer.items = itemDetails;
 
     // Save the entire item objects in customer.items
