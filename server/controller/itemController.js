@@ -43,7 +43,15 @@ exports.addItem = (req, res, next) => {
   res.status(201).json("created");
 };
 
-exports.updateItem = (req, res) => {
+exports.getOldItemData = (req, res) => {
+  const { id } = req.params;
+
+  Item.findById(id).then((data) => {
+    res.status(200).json(data);
+  });
+};
+
+exports.updateItemStock = (req, res) => {
   const { id, stock } = req.body;
   Item.findById(id)
     .then((item) => {

@@ -17,7 +17,7 @@ router.delete("/item/:id", itemController.deleteItem);
 router.post("/additem", itemController.addItem);
 
 //update item
-router.post("/item/:id", itemController.updateItem);
+router.post("/item/:id", itemController.updateItemStock);
 
 //adding customer
 router.post("/addcustomer", userController.createCustomer);

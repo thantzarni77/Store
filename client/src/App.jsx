@@ -7,6 +7,7 @@ import ItemDetail from "./pages/ItemDetail";
 import AddItem from "./pages/AddItem";
 import Customers from "./pages/Customers";
 import CustomerDetail from "./pages/CustomerDetail";
+import EditItem from "./pages/EditItem";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -25,6 +26,10 @@ const App = () => {
         {
           path: "/item/:id",
           element: <ItemDetail />,
+        },
+        {
+          path: "/edit/item/:id",
+          element: <EditItem />,
         },
         {
           path: "/additem",
