@@ -8,7 +8,6 @@ const ItemDetail = () => {
 
   useEffect(() => {
     getSingleItem(id);
-    console.log(singleItem);
   }, []);
   return (
     <div className="flex flex-col items-center justify-center">

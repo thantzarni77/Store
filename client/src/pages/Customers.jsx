@@ -12,9 +12,13 @@ const Customers = () => {
     <div className="m-5 flex items-center justify-center">
       {allCustomers.map((customer) => {
         return (
-          <div className="flex flex-col items-center justify-center border-2 border-red-200 p-4 rounded-lg">
+          <div
+            className="flex flex-col items-center justify-center border-2 border-red-200 p-4 rounded-lg"
+            key={customer.name}
+          >
             <h1>{customer.name}</h1>
             <Link to={`/customer/${customer._id}`}>View Orders</Link>
+            <Link to={`/edit/customer/${customer._id}`}>Edit Orders</Link>
           </div>
         );
       })}

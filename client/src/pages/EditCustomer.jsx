@@ -1,25 +1,66 @@
 import { useContext, useEffect, useState } from "react";
 import { ItemContext } from "../context/ItemContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const AddUser = () => {
-  const { user, setUser, allItems, getItems } = useContext(ItemContext);
+const EditCustomer = () => {
+  const { allItems, getItems } = useContext(ItemContext);
+  const [user, setUser] = useState("");
   const [checkedItems, setCheckedItems] = useState([]);
   const [note, setNote] = useState("");
   const navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     getItems();
+    fetchUserData();
   }, []);
+
+  const fetchUserData = async () => {
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER}/customer/${id}`
+    );
+    const data = await response.json();
+    setUser(data[0].name);
+    setNote(data[0].note);
+
+    const existingCheckedItems = data[0].items || [];
+    const prefilledCheckedItems = allItems
+      .map((item) => {
+        const existingItem = existingCheckedItems.find(
+          (checkedItem) => checkedItem.name === item.name
+        );
+        return existingItem
+          ? {
+              id: item._id, // Add the id
+              name: item.name,
+              price: item.price, // Add the price
+              stock: item.stock, // Add the stock
+              quantity: existingItem.quantity,
+            }
+          : null;
+      })
+      .filter(Boolean); // Filter out null values
+
+    setCheckedItems(prefilledCheckedItems);
+  };
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
 
     if (checked) {
-      setCheckedItems((prev) => [
-        ...prev,
-        { name: value, quantity: 1 }, // Start quantity at 1
-      ]);
+      const selectedItem = allItems.find((item) => item.name === value);
+      if (selectedItem) {
+        setCheckedItems((prev) => [
+          ...prev,
+          {
+            id: selectedItem.id,
+            name: selectedItem.name,
+            price: selectedItem.price,
+            stock: selectedItem.stock,
+            quantity: 1,
+          },
+        ]);
+      }
     } else {
       setCheckedItems((prev) => prev.filter((item) => item.name !== value));
     }
@@ -55,26 +96,31 @@ const AddUser = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    const itemData = { user, note, checkedItems };
+    const itemData = { id, user, note, checkedItems };
 
-    const response = await fetch(`${import.meta.env.VITE_SERVER}/addcustomer`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(itemData),
-    });
+    console.log(itemData);
 
-    setUser("");
-    navigate("/customers");
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER}/edit/customer/${id}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itemData),
+      }
+    );
+
+    if (response.ok) {
+      navigate("/customers");
+    }
   };
 
   return (
     <div className="w-full flex items-center justify-center">
       <div className="w-full flex items-center justify-center flex-col mt-5">
-        <h1>Add Customers</h1>
+        <h1>Edit Customer</h1>
         <form
-          method="post"
           className="w-2/3 flex flex-col justify-center items-center"
           onSubmit={submitHandler}
         >
@@ -86,11 +132,9 @@ const AddUser = () => {
               required
               type="text"
               name="name"
-              placeholder="Enter Customer Name...."
+              placeholder="Enter Customer Name..."
               className="border-2 border-red-200 w-full m-1 rounded-lg focus:outline-none indent-3 p-1"
-              onChange={(e) => {
-                setUser(e.target.value);
-              }}
+              onChange={(e) => setUser(e.target.value)}
               value={user}
             />
           </div>
@@ -142,22 +186,20 @@ const AddUser = () => {
             })}
           </div>
           <div className="w-full m-2 flex flex-col justify-center items-center">
-            <label htmlFor="name" className="m-1 self-start">
+            <label htmlFor="note" className="m-1 self-start">
               Note
             </label>
             <input
               type="text"
               name="note"
-              placeholder="Enter note...."
+              placeholder="Enter note..."
               className="border-2 h-14 border-red-200 w-full m-1 rounded-lg focus:outline-none indent-3 p-1"
-              onChange={(e) => {
-                setNote(e.target.value);
-              }}
+              onChange={(e) => setNote(e.target.value)}
               value={note}
             />
           </div>
           <button className="p-2 rounded-lg bg-red-200 mt-2" type="submit">
-            Add Customer
+            Update Customer
           </button>
         </form>
       </div>
@@ -165,4 +207,4 @@ const AddUser = () => {
   );
 };
 
-export default AddUser;
+export default EditCustomer;

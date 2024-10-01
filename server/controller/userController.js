@@ -51,13 +51,34 @@ exports.getAllCustomers = (req, res) => {
     });
 };
 
-exports.getSingleCustomer = (req, res) => {
+exports.getSingleCustomer = async (req, res) => {
   const { id } = req.params;
-  Customer.find({ _id: id }).then((customer) => {
-    if (customer) {
-      res.status(200).json(customer);
-    }
-  });
+  try {
+    const customer = await Customer.findById(id);
+
+    const itemNames = await customer.items.map((item) => item.name);
+
+    const items = await Item.find({ name: { $in: itemNames } }).sort({
+      name: 1,
+    });
+
+    const itemDetails = items.map((item, index) => ({
+      id: item._id, // Add the item's ID
+      name: item.name,
+      price: item.price,
+      stock: item.stock, // Add the item's stock
+      quantity: customer.items[index].quantity,
+    }));
+
+    customer.items = itemDetails;
+
+    // Save the entire item objects in customer.items
+    await customer.save();
+
+    res.status(200).json([customer]);
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 exports.deleteCustomer = (req, res) => {
@@ -65,4 +86,22 @@ exports.deleteCustomer = (req, res) => {
   Customer.findByIdAndDelete(id).then(() => {
     res.status(300).json("deleted");
   });
+};
+
+exports.updateCustomer = async (req, res) => {
+  const { id, user, note, checkedItems } = req.body;
+
+  try {
+    const customer = await Customer.findById(id);
+
+    customer.name = user;
+    customer.note = note;
+    customer.items = checkedItems;
+
+    await customer.save();
+
+    res.status(200).json(customer);
+  } catch (err) {
+    console.log(err);
+  }
 };

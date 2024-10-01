@@ -8,6 +8,7 @@ import AddItem from "./pages/AddItem";
 import Customers from "./pages/Customers";
 import CustomerDetail from "./pages/CustomerDetail";
 import EditItem from "./pages/EditItem";
+import EditCustomer from "./pages/EditCustomer";
 
 const App = () => {
   const router = createBrowserRouter([
@@ -46,6 +47,10 @@ const App = () => {
         {
           path: "/customer/:id",
           element: <CustomerDetail />,
+        },
+        {
+          path: "/edit/customer/:id",
+          element: <EditCustomer />,
         },
       ],
     },

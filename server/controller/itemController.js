@@ -63,6 +63,21 @@ exports.updateItemStock = (req, res) => {
     });
 };
 
+exports.updateItem = (req, res) => {
+  const { id } = req.params;
+  const { name, price, stock } = req.body;
+  Item.findById(id)
+    .then((item) => {
+      item.name = name;
+      item.price = price;
+      item.stock = stock;
+      return item.save();
+    })
+    .then(() => {
+      res.status(203).json("Updated");
+    });
+};
+
 exports.deleteItem = (req, res) => {
   const { id } = req.params;
   Item.findByIdAndDelete(id).then(() => {

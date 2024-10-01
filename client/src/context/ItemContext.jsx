@@ -6,6 +6,7 @@ const ItemContextProvider = ({ children }) => {
   const [allItems, setAllItems] = useState([]);
   const [itemName, setItemName] = useState("");
   const [singleItem, setSingleItem] = useState([]);
+  const [oldItem, setOldItem] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [user, setUser] = useState([]);
   const [price, setPrice] = useState("");
@@ -23,6 +24,14 @@ const ItemContextProvider = ({ children }) => {
     const response = await fetch(`${import.meta.env.VITE_SERVER}/item/${id}`);
     const data = await response.json();
     setSingleItem(data);
+  };
+
+  const getOldItem = async (id) => {
+    const response = await fetch(
+      `${import.meta.env.VITE_SERVER}/edit/item/${id}`
+    );
+    const data = await response.json();
+    setOldItem(data);
   };
 
   const getCustomerData = async (id) => {
@@ -60,6 +69,9 @@ const ItemContextProvider = ({ children }) => {
     customerData,
     setCustomerData,
     getCustomerData,
+    oldItem,
+    getOldItem,
+    setOldItem,
   };
 
   return <ItemContext.Provider value={values}>{children}</ItemContext.Provider>;

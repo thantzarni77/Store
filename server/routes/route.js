@@ -16,8 +16,14 @@ router.delete("/item/:id", itemController.deleteItem);
 //adding item
 router.post("/additem", itemController.addItem);
 
-//update item
+//update item stock
 router.post("/item/:id", itemController.updateItemStock);
+
+//update item
+router.post("/edit/item/:id", itemController.updateItem);
+
+//get old item data
+router.get("/edit/item/:id", itemController.getOldItemData);
 
 //adding customer
 router.post("/addcustomer", userController.createCustomer);
@@ -27,6 +33,9 @@ router.get("/customers", userController.getAllCustomers);
 
 //get single customer
 router.get("/customer/:id", userController.getSingleCustomer);
+
+//update customer
+router.post("/edit/customer/:id", userController.updateCustomer);
 
 //delete customer
 router.delete("/customer/:id", userController.deleteCustomer);

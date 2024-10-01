@@ -42,6 +42,7 @@ const AddItem = () => {
               Item Name
             </label>
             <input
+              required
               type="text"
               name="name"
               placeholder="Enter Item Name...."
@@ -57,6 +58,7 @@ const AddItem = () => {
               Item Price
             </label>
             <input
+              required
               type="text"
               name="price"
               placeholder="Enter Item Price...."
@@ -72,6 +74,7 @@ const AddItem = () => {
               Stock
             </label>
             <input
+              required
               type="text"
               name="stock"
               placeholder="Enter Stock Count...."

@@ -40,9 +40,7 @@ const Item = ({ id, name, price, stock }) => {
       <Link to={`http://localhost:5173/item/${id}`}>View details</Link>
       <div className="flex gap-5">
         <button onClick={deleteItem}>Delete Item</button>
-        <Link to={`${import.meta.env.VITE_SERVER}/edit/item/${id}`}>
-          Edit Item
-        </Link>
+        <Link to={`/edit/item/${id}`}>Edit Item</Link>
       </div>
     </div>
   );

@@ -8,10 +8,12 @@ const CustomerDetail = () => {
   const [total, setTotal] = useState();
   const { id } = useParams();
 
+  console.log(customerData);
+
   useEffect(() => {
     getCustomerData(id);
     calculateSubtotal();
-  }, [customerData]);
+  }, [getCustomerData]);
 
   const calculateSubtotal = () => {
     const subtotals =
