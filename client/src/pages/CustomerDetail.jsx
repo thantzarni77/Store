@@ -80,8 +80,8 @@ const CustomerDetail = () => {
   return (
     <div className="flex justify-center items-center flex-col m-4">
       <div className="m-4">{customerData[0]?.name}</div>
-      <div className="flex justify-center items-center my-5">Orders</div>
-      <table className="border-2 border-red-200 w-[80%]">
+      <div className="flex justify-center items-center my-2">Orders</div>
+      <div className="table border-2 border-red-200 w-full p-2 m-auto">
         <thead>
           <tr>
             <td>Item Name</td>
@@ -90,6 +90,7 @@ const CustomerDetail = () => {
             <td>Subtotal</td>
           </tr>
         </thead>
+
         <tbody>
           {customerData[0]?.items.map((data, index) => {
             return (
@@ -108,7 +109,7 @@ const CustomerDetail = () => {
             <td>{total}</td>
           </tr>
         </tbody>
-      </table>
+      </div>
       {customerData[0]?.note && (
         <div className="flex flex-col gap-5 items-center justify-center">
           <div>-- Note --</div>
@@ -117,14 +118,14 @@ const CustomerDetail = () => {
       )}
       <div className="flex gap-5">
         <Link
-          className="p-2 rounded-lg bg-blue-100 mt-5"
+          className="p-2 rounded-lg bg-blue-100 mt-5 hover:bg-cyan-100"
           to={`/edit/customer/${id}`}
         >
           Edit Orders
         </Link>
 
         <div
-          className="p-2 rounded-lg bg-red-100 mt-5"
+          className="p-2 rounded-lg bg-red-100 hover:bg-red-300 mt-5"
           onClick={orderFinishHandle}
         >
           Order Finished

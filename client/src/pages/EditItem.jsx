@@ -48,16 +48,6 @@ const EditItem = () => {
     }
   };
 
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-
-  //   setNewItem((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  //   console.log("Updated newItem state:", { ...newItem, [name]: value }); // Log state updates
-  // };
-
   return (
     <div className="w-full flex items-center justify-center">
       <div className="w-full flex items-center justify-center flex-col mt-5">
@@ -71,7 +61,7 @@ const EditItem = () => {
               Item Name
             </label>
             <input
-              required
+              disabled
               type="text"
               name="name"
               placeholder="Enter Item Name...."

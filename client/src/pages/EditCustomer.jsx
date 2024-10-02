@@ -136,13 +136,13 @@ const EditCustomer = () => {
               value={user}
             />
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-col w-full items-left justify-center border-2 border-red-200 rounded-lg p-3">
             {allItems.map((item) => {
               const isChecked = checkedItems.find(
                 (checkedItem) => checkedItem.name === item.name
               );
               return (
-                <div key={item.name} className="flex items-center flex-col">
+                <div key={item.name} className="flex items-center gap-1">
                   <input
                     type="checkbox"
                     value={item.name}
