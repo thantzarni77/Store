@@ -64,14 +64,18 @@ const CustomerDetail = () => {
   const orderFinishHandle = async () => {
     try {
       // Update stock for all items
-      await Promise.all(
-        customerData[0]?.items?.map(async (data) => {
-          await updateStock(data.id, data.stock, data.quantity);
-        })
-      );
+      if (confirm("Are You Sure")) {
+        await Promise.all(
+          customerData[0]?.items?.map(async (data) => {
+            await updateStock(data.id, data.stock, data.quantity);
+          })
+        );
 
-      // Now delete the customer after updating stock
-      await deleteCustomer();
+        // Now delete the customer after updating stock
+        await deleteCustomer();
+      } else {
+        return;
+      }
     } catch (error) {
       console.error("Error finishing order:", error);
     }

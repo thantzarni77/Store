@@ -39,10 +39,7 @@ const Item = ({ id, name, price, stock }) => {
       <div className="flex gap-5 items-center">
         <p>Price - {price}</p>
         <p>Stock - {stock}</p>
-        <Link
-          className="hover:text-red-300"
-          to={`http://localhost:5173/item/${id}`}
-        >
+        <Link className="hover:text-red-300" to={`/item/${id}`}>
           Details
         </Link>
         <div className="flex gap-5">
